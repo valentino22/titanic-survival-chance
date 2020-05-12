@@ -101,6 +101,10 @@ textarea:focus::placeholder {
 	color: transparent
 }
 
+.age{
+	margin-top: 15px;
+}
+
 label {
 	font-family: Poppins;
 	margin: 0;
