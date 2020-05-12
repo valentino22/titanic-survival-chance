@@ -4,33 +4,88 @@
   <link rel="stylesheet"
     href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
     integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Hind:300" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/util.css') }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predict if you would have survived the Titanic disaster</title>
 </head>
 <body>
-  <div class="login">
-    <form action="{{ url_for('predict')}}" method="post">
-      <input type="text" name="class" placeholder="Class" required="required" /> <br>
-      <input type="text" name="sex" placeholder="Sex" required="required" /> <br>
-      <input type="text" name="age" placeholder="Age" required="required" /> <br>
-      <input type="text" name="sibsp" placeholder="NUmber of siblings or spouse" required="required" /> <br>
-      <input type="text" name="parch" placeholder="Number of parents" required="required" /> <br>
-      <input type="text" name="fare" placeholder="Fare price $" required="required" /> <br>
-      <input type="text" name="embarked" placeholder="Embarked city" required="required" /> <br>
-      <button type="submit" class="btn btn-primary btn block btn-large">Predict</button>
-    </form>
-    {% if pred == 1 %}
-      <h4 class="alert alert-success">Will you survive? <span class="badge badge-success">Yes!</span></h4>
-    {% else %}
-      <h4 class="alert alert-success">Will you survive? <span class="badge badge-danger">No 😢!</span></h4>
-    {% endif %}
-    <h4 class="alert alert-success">Likelihood of survival: {{likelihood}}</h4>
+
+  <div class="limiter">
+    <div class="container-login100"
+      style="background-image: url('{{url_for("static", filename="images/bg.jpg")}}');">
+      <div class="wrap-login100">
+        <form action="{{ url_for('predict')}}" class="login100-form validate-form"  method="post">
+          <span class="login100-form-logo">
+            <i class="zmdi zmdi-boat"></i>
+          </span>
+          <span class="login100-form-title p-b-10 p-t-10">
+            Your chance of survival on Titanic
+          </span>
+          <label for="class">Select class of cabin:</label>
+          <select id="class" class="wrap-input100 validate-input" name="class"
+             data-validate="Select class of cabin">
+            <option value="1">First Class</option>
+            <option value="2">2nd Class</option>
+            <option value="3">3rd Class</option>
+          </select>
+          <div type="text" class="gender" data-validate="Enter sex of passenger">
+            <label for="sex">Gender of passenger:</label>
+            <div>
+              <input type="radio" id="male" name="sex" value="male">
+              <label for="male">Male</label><br>
+            </div>
+            <div>
+              <input type="radio" id="female" name="sex" value="female">
+              <label for="female">Female</label><br>
+            </div>
+           </div>
+          <div type="text" class="wrap-input100 validate-input" data-validate="Enter age of passenger">
+            <input class="input100" type="number" name="age" placeholder="Age" required="required">
+          </div>
+          <div type="text" class="wrap-input100 validate-input"
+            data-validate="Enter number of siblings / spouses aboard the Titanic">
+            <input class="input100" type="number" name="sibsp" placeholder="Siblings / spouses aboard the Titanic"
+              required="required">
+          </div>
+          <div type="text" class="wrap-input100 validate-input"
+            data-validate="Enter number of parents / children aboard the Titanic">
+            <input class="input100" type="number" name="parch" placeholder="Parents / children aboard the Titanic"
+              required="required">
+          </div>
+          <div type="text" class="wrap-input100 validate-input" data-validate="Enter passenger fare">
+            <input class="input100" type="number" name="fare" placeholder="Price of ticket" required="required">
+          </div>
+          <label for="embarked">Port of Embarkation:</label>
+          <select id="embarked" class="wrap-input100 validate-input" name="embarked"
+            data-validate="Enter port of Embarkation">
+            <option value="Q">Queenstown</option>
+            <option value="S">Southampton</option>
+            <option value="C">Cherbourg</option>
+          </select>
+          <div class="container-login100-form-btn">
+            <button type="submit" class="login100-form-btn">
+              Predict
+            </button>
+          </div>
+        </form>
+        {% if pred == 1 %}
+          <h5 class="alert alert-info">Will you survive? <span class="badge badge-success">Yes!</span></h5>
+          <h5 class="alert alert-info">Likelihood of survival: {{likelihood}}</h5>
+        {% elif pred == 0 %}
+          <h5 class="alert alert-info">Will you survive? No 😢!</h5>
+          <h5 class="alert alert-info">Likelihood of survival: {{likelihood}}</h5>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </body>
 </html>
